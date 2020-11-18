@@ -1,1 +1,54 @@
-<p>list works!</p>
+<ul class="list-group">
+    <li class="list-group-item">
+<div *ngFor="let data of dataReceived">
+    <div *ngIf="!data.completed">
+        <h3>{{data.desc}}</h3>
+        <h3>{{data.priority}}</h3>
+        <h3>{{data.duedate}}</h3>
+        <button (click)="editTask(data.taskID)" class="btn btn-primary">Edit</button>
+        <button (click)="setCompleted(data.taskID)" class="btn btn-success">Completed</button>
+        <button (click)="deleteTask(data.taskID)" class="btn btn-danger">Delete</button>
+    </div>
+    <div *ngIf="data.toEdit">
+
+        <form [formGroup]="form" (ngSubmit)="processForm()">
+            <div class="form-group">
+                <label for="desc">Description: </label>
+                <input type="text" name="desc" id="desc" class="form-control" formControlName="desc" />
+                <div *ngIf="form.get('desc').hasError('required') && form.get('desc').touched">Description field is required.</div>
+            </div>
+            <div class="form-group">
+                <label for="priority">Priority: </label>
+                High <input type="radio" name="priority" id="priority" value="high" formControlName="priority" />
+                Medium <input type="radio" name="priority" id="priority" value="medium" formControlName="priority" />
+                Low <input type="radio" name="priority" id="priority" value="low" formControlName="priority" />
+            </div>
+            <div class="form-group">
+                <label for="duedate">Due Date: </label>
+                <input type="date" name="duedate" id="duedate" formControlName="duedate" class="form-control"  />
+                <div *ngIf="form.get('duedate').hasError('dateinpast')">Date is in the past!</div>
+                <div *ngIf="form.get('duedate').hasError('required') && form.get('duedate').touched">Date is required.</div>
+            </div>
+            <input type="hidden" formControlName="taskID" [ngModel]="data.taskID">
+
+            <button type="submit" [disabled]="form.invalid" class="btn btn-primary">Edit</button>
+        </form>
+
+    </div>
+</div>
+    </li>
+</ul>
+
+<hr>
+<h1>Completed Tasks:</h1>
+<ul class="list-group">
+    <li class="list-group-item">
+<div *ngFor="let data of dataReceived">
+    <div *ngIf="data.completed">
+        <h3>{{data.desc}}</h3>
+        <h3>{{data.priority}}</h3>
+        <h3>{{data.duedate}}</h3>
+    </div>
+</div>
+    </li>
+</ul>

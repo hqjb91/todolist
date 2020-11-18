@@ -1,2 +1,4 @@
-<app-form></app-form>
-<app-list></app-list>
+<div class="container">
+    <app-form (dataEmit)="sendDataToParent($event)"></app-form>
+    <app-list [dataReceived]="dataPassToList"></app-list>
+</div>

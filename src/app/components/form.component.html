@@ -1,20 +1,23 @@
 <h1>
-    ToDo
+    To Do List
 </h1>
-<form #form="ngForm" (ngSubmit)="processForm()">
+<form [formGroup]="form" (ngSubmit)="processForm()">
     <div class="form-group">
         <label for="desc">Description: </label>
-        <input type="text" name="desc" id="desc" class="form-control" />
+        <input type="text" name="desc" id="desc" class="form-control" formControlName="desc" />
+        <div *ngIf="form.get('desc').hasError('required') && form.get('desc').touched">Description field is required.</div>
     </div>
     <div class="form-group">
         <label for="priority">Priority: </label>
-        High <input type="radio" name="priority" id="priority" value="high" />
-        Medium <input type="radio" name="priority" id="priority" value="medium" />
-        Low <input type="radio" name="priority" id="priority" value="low" />
+        High <input type="radio" name="priority" id="priority" value="high" formControlName="priority" />
+        Medium <input type="radio" name="priority" id="priority" value="medium" formControlName="priority" />
+        Low <input type="radio" name="priority" id="priority" value="low" formControlName="priority" />
     </div>
     <div class="form-group">
-        <label for="duedate">Due: </label>
-        <input type="text" name="duedate" id="duedate" />
+        <label for="duedate">Due Date: </label>
+        <input type="date" name="duedate" id="duedate" formControlName="duedate" class="form-control" />
+        <div *ngIf="form.get('duedate').hasError('dateinpast')">Date is in the past!</div>
+        <div *ngIf="form.get('duedate').hasError('required') && form.get('duedate').touched">Date is required.</div>
     </div>
-    <button type="submit">Add</button>
+    <button type="submit" [disabled]="form.invalid" class="btn btn-primary btn-lg mb-3">Add</button>
 </form>
